@@ -1,0 +1,30 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Box } from "@mui/material";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./pages/Dashboard.jsx";
+import Employees from "./pages/Employees";
+import LeaveRequests from "./pages/LeaveRequests";
+// import Profile from "./pages/Profile";
+import "./App.css";
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Box sx={{ display: "flex" }}>
+        <Sidebar />
+        <Box sx={{ flexGrow: 1, padding: 3 }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="/leave-requests" element={<LeaveRequests />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
+          </Routes>
+        </Box>
+      </Box>
+    </Router>
+  );
+}
+
+export default App;

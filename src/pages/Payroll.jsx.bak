@@ -1,0 +1,143 @@
+import React, { useState } from "react";
+import {
+  Button,
+  Container,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from "@mui/material";
+
+const Payroll = () => {
+  const [payrollData, setPayrollData] = useState([
+    {
+      id: 1,
+      name: "John Doe",
+      basicSalary: 50000,
+      allowances: 10000,
+      deductions: 5000,
+      netPay: 55000,
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      basicSalary: 60000,
+      allowances: 12000,
+      deductions: 7000,
+      netPay: 65000,
+    },
+  ]);
+
+  const [open, setOpen] = useState(false);
+  const [newPayroll, setNewPayroll] = useState({
+    name: "",
+    basicSalary: "",
+    allowances: "",
+    deductions: "",
+    netPay: "",
+  });
+
+  const handleChange = (e) => {
+    setNewPayroll({ ...newPayroll, [e.target.name]: e.target.value });
+  };
+
+  const handleAddPayroll = () => {
+    setPayrollData([
+      ...payrollData,
+      { ...newPayroll, id: payrollData.length + 1 },
+    ]);
+    setOpen(false);
+  };
+
+  return (
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Payroll Management
+      </Typography>
+      <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+        Add Payroll
+      </Button>
+
+      {/* Payroll Table */}
+      <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Basic Salary</TableCell>
+              <TableCell>Allowances</TableCell>
+              <TableCell>Deductions</TableCell>
+              <TableCell>Net Pay</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {payrollData.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.basicSalary}</TableCell>
+                <TableCell>{row.allowances}</TableCell>
+                <TableCell>{row.deductions}</TableCell>
+                <TableCell>{row.netPay}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Add Payroll Modal */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Add Payroll</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            margin="dense"
+            name="name"
+            label="Employee Name"
+            onChange={handleChange}
+          />
+          <TextField
+            fullWidth
+            margin="dense"
+            name="basicSalary"
+            label="Basic Salary"
+            onChange={handleChange}
+            type="number"
+          />
+          <TextField
+            fullWidth
+            margin="dense"
+            name="allowances"
+            label="Allowances"
+            onChange={handleChange}
+            type="number"
+          />
+          <TextField
+            fullWidth
+            margin="dense"
+            name="deductions"
+            label="Deductions"
+            onChange={handleChange}
+            type="number"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={handleAddPayroll} variant="contained">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
+};
+
+export default Payroll;
