@@ -12,7 +12,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import LeaveRequestForm from "./components/LeaveRequestForm";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
-import "./App.css";
 
 function AppContent() {
   const { user } = useContext(UserContext);
@@ -27,21 +26,12 @@ function AppContent() {
   }
 
   return (
-    <>
-      <Navbar />
-      <Box sx={{ display: "flex", height: "100vh" }}>
-        {/* Sidebar */}
-        <Sidebar />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flexGrow: 1, // Main content area grows to take available space
-            padding: 3,
-            overflow: "hidden", // Handles overflowing content
-            marginLeft: "250px", // Sidebar width fixed to 250px
-          }}
-        >
+    <Box sx={{ display: "flex", height: "100vh" }}>
+      <CssBaseline />
+      <Sidebar />
+      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        <Navbar />
+        <Box sx={{ flexGrow: 1, p: 3, bgcolor: "#f5f5f5", overflow: "auto" }}>
           <Routes>
             <Route
               path="/"
@@ -89,14 +79,13 @@ function AppContent() {
           </Routes>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }
 
 function App() {
   return (
     <Router>
-      <CssBaseline /> {/* Apply default MUI styles */}
       <AppContent />
     </Router>
   );
