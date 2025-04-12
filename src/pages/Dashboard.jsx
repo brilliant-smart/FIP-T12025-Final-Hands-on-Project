@@ -8,6 +8,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import RequestPageIcon from "@mui/icons-material/RequestPage";
 import { getEmployees, getDepartments } from "../services/employeeService";
 import { getLeaveRequests } from "../services/leaveService";
+import { getAttendanceRecords } from "../services/attendanceService";
 
 const Dashboard = ({ user }) => {
   const [stats, setStats] = useState([
@@ -36,6 +37,11 @@ const Dashboard = ({ user }) => {
       value: 0,
       icon: <PeopleIcon fontSize="large" />,
     },
+    {
+      label: "Staff at Work Today",
+      value: 0,
+      icon: <PeopleIcon fontSize="large" />,
+    },
   ]);
 
   useEffect(() => {
@@ -43,6 +49,7 @@ const Dashboard = ({ user }) => {
       try {
         const employees = await getEmployees();
         const leaveRequests = await getLeaveRequests();
+        const attendanceRecords = await getAttendanceRecords();
 
         const totalEmployees = employees.length; // Count employees
         const pendingLeaves = leaveRequests.filter(
@@ -68,14 +75,21 @@ const Dashboard = ({ user }) => {
         const departments = [
           ...new Set(employees.map((emp) => emp.department)),
         ]; // Extract unique departments
+        const staffAtWorkToday = attendanceRecords.filter(
+          (record) =>
+            record.status === "Present" &&
+            record.date === dayjs().format("YYYY-MM-DD")
+        ).length; // Count staff at work today
 
         console.log("Employees:", employees);
         console.log("Leave Requests:", leaveRequests);
+        console.log("Attendance Records:", attendanceRecords);
         console.log("Total Employees:", totalEmployees);
         console.log("Pending Leaves:", pendingLeaves);
         console.log("Approved Leaves:", approvedLeaves);
         console.log("Employees on Leave:", employeesOnLeave);
         console.log("Departments:", departments);
+        console.log("Staff at Work Today:", staffAtWorkToday);
 
         setStats([
           {
@@ -101,6 +115,11 @@ const Dashboard = ({ user }) => {
           {
             label: "Employees on Leave",
             value: employeesOnLeave,
+            icon: <PeopleIcon fontSize="large" />,
+          },
+          {
+            label: "Staff at Work Today",
+            value: staffAtWorkToday,
             icon: <PeopleIcon fontSize="large" />,
           },
         ]);
