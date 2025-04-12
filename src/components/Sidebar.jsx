@@ -53,29 +53,31 @@ const Sidebar = () => {
         }}
       >
         <List>
-          <ListItem button component={Link} to="/">
+          <ListItem button={true} component={Link} to="/">
             <ListItemText primary="Dashboard" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/employees">
-            <ListItemText primary="Employees" />
-          </ListItem>
+          {user?.role !== "Employee" && (
+            <ListItem button={true} component={Link} to="/employees">
+              <ListItemText primary="Employees" />
+            </ListItem>
+          )}
           <Divider />
 
           {/* Conditionally render Leave Requests link for Admin only */}
           {user?.role === "Admin" && (
-            <ListItem button component={Link} to="/leave-requests">
+            <ListItem button={true} component={Link} to="/leave-requests">
               <ListItemText primary="Leave Requests" />
             </ListItem>
           )}
           <Divider />
-          <ListItem button component={Link} to="/profile">
+          <ListItem button={true} component={Link} to="/profile">
             <ListItemText primary="Profile" />
           </ListItem>
 
           {/* Conditionally render the "Apply for Leave" option for Employees */}
           {user?.role === "Employee" && (
-            <ListItem button component={Link} to="/leave-request">
+            <ListItem button={true} component={Link} to="/leave-request">
               <ListItemText primary="Apply for Leave" />
             </ListItem>
           )}

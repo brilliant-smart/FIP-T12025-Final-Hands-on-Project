@@ -12,12 +12,19 @@ const UserProvider = ({ children }) => {
     const storedToken = localStorage.getItem("token");
 
     if (storedToken && storedToken.split(".").length === 3) {
-      setToken(storedToken);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
-      const decodedToken = decodeJwt(storedToken);
-      setUser(decodedToken);
+      try {
+        const decodedToken = decodeJwt(storedToken);
+        setToken(storedToken);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${storedToken}`;
+        setUser(decodedToken);
+      } catch (error) {
+        console.error("Error decoding token", error);
+      }
     } else {
       console.error("Invalid token format");
+      localStorage.removeItem("token"); // Clear invalid token
     }
   }, []);
 
@@ -49,7 +56,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, token, login, logout }}>
+    <UserContext.Provider value={{ user, token, login, logout, setUser }}>
       {children}
     </UserContext.Provider>
   );

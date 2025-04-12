@@ -58,3 +58,10 @@ export const deleteEmployee = async (id) => {
     saveEmployees(updatedEmployees);
     return { success: true };
 };
+
+// Get all departments
+export const getDepartments = async () => {
+    const employees = loadEmployees();
+    const departments = [...new Set(employees.map(emp => emp.department))]; // Extract unique departments
+    return departments;
+};

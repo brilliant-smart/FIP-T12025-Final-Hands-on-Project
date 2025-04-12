@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
 import PrivateRoute from "./components/PrivateRoute";
 import LeaveRequestForm from "./components/LeaveRequestForm";
+import Profile from "./pages/Profile";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
 
@@ -75,6 +76,16 @@ function AppContent() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute
+                  allowedRoles={["Admin", "HR Manager", "Employee"]}
+                >
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
             <Route path="/unauthorized" element={<Unauthorized />} />
           </Routes>
         </Box>
@@ -85,7 +96,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/FIP-T12025-Final-Hands-on-Project/">
       <AppContent />
     </Router>
   );
