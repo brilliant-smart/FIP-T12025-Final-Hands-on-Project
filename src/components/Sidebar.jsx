@@ -81,6 +81,13 @@ const Sidebar = () => {
               <ListItemText primary="Apply for Leave" />
             </ListItem>
           )}
+
+          {/* Conditionally render the "Attendance" option for users other than Employees */}
+          {user?.role !== "Employee" && (
+            <ListItem button={true} component={Link} to="/attendance">
+              <ListItemText primary="Attendance" />
+            </ListItem>
+          )}
         </List>
       </Drawer>
     </>

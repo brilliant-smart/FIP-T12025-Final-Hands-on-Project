@@ -11,6 +11,7 @@ import Unauthorized from "./pages/Unauthorized";
 import PrivateRoute from "./components/PrivateRoute";
 import LeaveRequestForm from "./components/LeaveRequestForm";
 import Profile from "./pages/Profile";
+import Attendance from "./pages/Attendance";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
 
@@ -73,6 +74,14 @@ function AppContent() {
               element={
                 <PrivateRoute allowedRoles={["Admin", "HR Manager"]}>
                   <Payroll />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/attendance"
+              element={
+                <PrivateRoute allowedRoles={["Admin", "HR Manager"]}>
+                  <Attendance />
                 </PrivateRoute>
               }
             />
